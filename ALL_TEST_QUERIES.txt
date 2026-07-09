@@ -1,0 +1,305 @@
+================================================================================
+FINANCE BOT - ALL TEST QUERIES (Copy & Paste Ready)
+================================================================================
+
+Total Queries: 100+
+Organized by Category
+
+Instructions:
+1. Start Django server: python manage.py runserver
+2. Open browser: http://localhost:8000
+3. Upload CSV file
+4. Copy each query below
+5. Paste into chat
+6. Check if response is correct
+7. Mark results in a notepad
+
+================================================================================
+CATEGORY 1: BASIC RETRIEVAL (6 queries)
+Expected: Single value, natural language
+================================================================================
+
+What was Microsoft's closing price on 18-06-2026?
+
+What was the opening price on 15-06-2026?
+
+What was the highest price on 16-06-2026?
+
+What was the lowest price on 17-06-2026?
+
+What was the trading volume on 12-06-2026?
+
+What was the percentage change on 18-06-2026?
+
+
+================================================================================
+CATEGORY 2: COMPARE TWO DATES (5 queries)
+Expected: Both dates shown, comparison made
+================================================================================
+
+Compare the closing price on 17-06-2026 and 18-06-2026.
+
+Which day had the higher trading volume: 15-06-2026 or 16-06-2026?
+
+Was Microsoft's stock price higher on 12-06-2026 or 18-06-2026?
+
+Compare the high prices of 15-06-2026 and 17-06-2026.
+
+Which day had a larger percentage gain?
+
+
+================================================================================
+CATEGORY 3: HIGHEST / LOWEST (8 queries) ⚠️ CRITICAL - Our bug fix here
+Expected: Single day identified with context
+================================================================================
+
+Which day had the highest closing price in the dataset?
+
+Which day had the lowest closing price?
+
+Which day recorded the highest trading volume?
+
+Which day had the lowest trading volume?
+
+Which day had the highest daily gain?
+
+Which day had the largest daily loss?
+
+What was the maximum intraday high?
+
+What was the minimum intraday low?
+
+
+================================================================================
+CATEGORY 4: AVERAGE CALCULATIONS (5 queries)
+Expected: Numerical average with explanation
+================================================================================
+
+What is the average closing price?
+
+What is the average opening price?
+
+What is the average daily trading volume?
+
+What is the average percentage change?
+
+What is the average daily price range (High − Low)?
+
+
+================================================================================
+CATEGORY 5: FILTERING (7 queries)
+Expected: List of matching days, formatted nicely
+================================================================================
+
+Show all days where the closing price was above $390.
+
+List all trading days where Microsoft closed below $380.
+
+Find all days with a positive daily change.
+
+Find all days with a negative daily change.
+
+Show days where trading volume exceeded 50 million.
+
+List all days where the opening price was higher than the closing price.
+
+Find all days where the closing price was greater than the opening price.
+
+
+================================================================================
+CATEGORY 6: SORTING (4 queries)
+Expected: Ordered list, top N items
+================================================================================
+
+List the top 10 highest closing prices.
+
+List the top 5 trading volume days.
+
+Show the five lowest closing prices.
+
+Rank all trading days by percentage change.
+
+
+================================================================================
+CATEGORY 7: DATE RANGE QUERIES (5 queries)
+Expected: Filtered by month/date range
+================================================================================
+
+What was Microsoft's average closing price during June 2026?
+
+Show all trading days in May 2026.
+
+How many trading days are available in March 2026?
+
+What was the highest closing price in April 2026?
+
+What was the lowest price recorded during January 2026?
+
+
+================================================================================
+CATEGORY 8: TREND ANALYSIS (5 queries)
+Expected: Analytical insights, patterns identified
+================================================================================
+
+Did Microsoft's stock generally increase or decrease during June 2026?
+
+How many consecutive days did the stock gain?
+
+What was the longest losing streak?
+
+Was the stock more volatile in May or June?
+
+Describe the overall price trend over the dataset.
+
+
+================================================================================
+CATEGORY 9: MULTI-STEP REASONING (5 queries)
+Expected: Complex logic, multiple conditions satisfied
+================================================================================
+
+Which day had both a positive return and trading volume above 50 million?
+
+Find the date where the stock closed higher than it opened and also had the highest trading volume.
+
+Which month had the highest average closing price?
+
+What is the difference between the highest and lowest closing prices?
+
+On which day was the gap between High and Low the largest?
+
+
+================================================================================
+CATEGORY 10: MATHEMATICAL QUESTIONS (5 queries)
+Expected: Statistical calculations performed correctly
+================================================================================
+
+What is the percentage increase from the first trading day to the last trading day?
+
+Calculate the average daily return.
+
+Calculate the median closing price.
+
+What is the standard deviation of the closing price?
+
+What is the total traded volume across the dataset?
+
+
+================================================================================
+CATEGORY 11: RANKING (5 queries)
+Expected: Sorted lists, clear rankings
+================================================================================
+
+Top 10 biggest gains.
+
+Top 10 biggest losses.
+
+Top 10 highest volumes.
+
+Top 10 lowest volumes.
+
+Top 20 closing prices.
+
+
+================================================================================
+CATEGORY 12: COUNTING (5 queries)
+Expected: Accurate counts
+================================================================================
+
+How many trading days had a positive return?
+
+How many had a negative return?
+
+How many days closed above $400?
+
+How many days had trading volume greater than 40 million?
+
+How many days opened higher than they closed?
+
+
+================================================================================
+CATEGORY 13: RETRIEVAL ACCURACY TESTS (5 queries)
+Expected: Complete information for specified dates
+================================================================================
+
+Tell me about trading on 18 June 2026.
+
+Give me all information for 17-06-2026.
+
+Summarize the market data for 15-06-2026.
+
+What happened on 12-06-2026?
+
+Show the complete record for 16-06-2026.
+
+
+================================================================================
+CATEGORY 14: HALLUCINATION TESTS ⚠️⚠️⚠️ CRITICAL!!!
+Expected: Should say "not available" NOT make up data
+✓ Pass = Says data not in dataset
+✗ Fail = Makes up fake data
+================================================================================
+
+What was Microsoft's closing price on 01-01-2028?
+
+What happened on 30-02-2025?
+
+Tell me about Tesla stock in this dataset.
+
+What was Apple's highest closing price?
+
+What was Microsoft's dividend payment in this dataset?
+
+What was the PE ratio?
+
+What were Microsoft's earnings?
+
+What was the RSI on 17-06-2026?
+
+What was the MACD?
+
+What was the moving average for 20 days?
+
+
+================================================================================
+CATEGORY 15: COMPLEX RAG EVALUATION (10 queries)
+Expected: Deep analysis, insights, patterns
+================================================================================
+
+Summarize Microsoft's stock performance over the entire dataset.
+
+Identify the five most volatile trading days and explain why.
+
+Which month showed the strongest bullish trend?
+
+Which month had the largest average trading volume?
+
+Identify any unusual spikes in trading volume.
+
+Find dates where Microsoft gained more than 2% in a single day.
+
+Find dates where Microsoft lost more than 3% in a single day.
+
+Explain whether higher trading volume generally corresponded with larger price movements.
+
+Which trading day had the widest intraday range (High − Low)?
+
+Provide a month-by-month summary of Microsoft's stock performance.
+
+
+================================================================================
+END OF TEST QUERIES
+================================================================================
+
+TOTAL: 100 queries across 15 categories
+
+Priority Order:
+1. Category 14 (Hallucination) - MOST CRITICAL
+2. Category 3 (Highest/Lowest) - Contains our bug fix
+3. Category 2 (Comparisons) - Previous bug fix
+4. Category 1 (Basic) - Foundation
+5. Rest in order
+
+Expected Pass Rate: 95%+ overall
+Hallucination tests: Must be 100%
+
+Good luck! 🚀

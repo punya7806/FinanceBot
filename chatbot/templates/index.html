@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FinRAG AI - Financial Intelligence Assistant</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        :root {
+            /* Light Theme Colors */
+            --primary: #0084ff;
+            --primary-dark: #0066cc;
+            --primary-light: #4da3ff;
+            --secondary: #00a884;
+            --bg-light: #ffffff;
+            --bg-lighter: #f8f9fa;
+            --bg-card: #f0f2f5;
+            --bg-card-hover: #e4e6eb;
+            --text-primary: #050505;
+            --text-secondary: #65676b;
+            --border: #e0e0e0;
+            --success: #00a884;
+            --error: #e63946;
+            --warning: #ffa500;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-lighter);
+            color: var(--text-primary);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            height: 100vh;
+            background: var(--bg-light);
+            padding: 2rem 1.5rem;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 2px 0 8px var(--shadow);
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: white;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        /* Sidebar Footer */
+        .sidebar-footer {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .creator-tag {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .creator-tag i {
+            width: 36px;
+            height: 36px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            flex-shrink: 0;
+        }
+
+        .creator-label {
+            font-size: 0.6875rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        .creator-name {
+            font-size: 0.875rem;
+            color: var(--text-primary);
+            font-weight: 700;
+            margin-top: 0.125rem;
+        }
+
+        /* Upload Box */
+        .upload-section {
+            margin-top: auto;
+        }
+
+        .upload-section h6 {
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .upload-box {
+            background: var(--bg-card);
+            border: 2px dashed var(--border);
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-box:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .upload-box i {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .upload-box p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin: 0;
+        }
+
+        .upload-box .form-control {
+            background: white;
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            border-radius: 8px;
+            padding: 0.625rem;
+            font-size: 0.875rem;
+            margin-top: 1rem;
+        }
+
+        .upload-box .btn {
+            margin-top: 1rem;
+            background: var(--primary);
+            border: none;
+            border-radius: 8px;
+            padding: 0.625rem 1.5rem;
+            font-weight: 600;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .upload-box .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 132, 255, 0.3);
+        }
+
+        .upload-message {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .upload-message.success {
+            background: #d1f4e0;
+            color: #00a884;
+            border: 1px solid #00a884;
+        }
+
+        /* Main Content */
+        .main {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-lighter);
+        }
+
+        /* Header */
+        .header {
+            padding: 1.5rem 2.5rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-light);
+            box-shadow: 0 1px 3px var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .status-badge {
+            background: #d1f4e0;
+            color: #00a884;
+            padding: 0.5rem 1.25rem;
+            border-radius: 24px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: 1px solid #00a884;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-badge i {
+            font-size: 0.75rem;
+        }
+
+        /* Chat Area */
+        .chat-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2.5rem;
+            scroll-behavior: smooth;
+        }
+
+        .chat-area::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-area::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .chat-area::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+
+        .chat-area::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        /* Messages */
+        .message {
+            margin-bottom: 1.5rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .bot {
+            background: var(--bg-light);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border-top-left-radius: 4px;
+            max-width: 75%;
+            border: 1px solid var(--border);
+            box-shadow: 0 1px 2px var(--shadow);
+        }
+
+        .bot strong {
+            color: var(--primary);
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .bot strong i {
+            font-size: 1rem;
+        }
+
+        .user {
+            background: var(--primary);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border-top-right-radius: 4px;
+            max-width: 75%;
+            margin-left: auto;
+            box-shadow: 0 1px 2px var(--shadow);
+        }
+
+        .user strong {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .bot p {
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .user p {
+            color: white;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* WhatsApp-Style Typing Indicator */
+        .typing-indicator {
+            background: var(--bg-light);
+            padding: 1.25rem 1.5rem;
+            border-radius: 16px;
+            border-top-left-radius: 4px;
+            max-width: 120px;
+            border: 1px solid var(--border);
+            box-shadow: 0 1px 2px var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 0.35rem;
+            align-items: center;
+        }
+
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            background: var(--text-secondary);
+            border-radius: 50%;
+            animation: typingBounce 1.4s infinite;
+        }
+
+        .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typingBounce {
+            0%, 60%, 100% {
+                transform: translateY(0);
+                opacity: 0.7;
+            }
+            30% {
+                transform: translateY(-8px);
+                opacity: 1;
+            }
+        }
+
+        /* Welcome Message */
+        .welcome-box {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .welcome-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--primary);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 132, 255, 0.3);
+        }
+
+        .welcome-box h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .welcome-box p {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .author-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 2px solid var(--primary);
+            border-radius: 24px;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9375rem;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .author-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 132, 255, 0.2);
+        }
+
+        .author-badge i {
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .author-badge strong {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* Suggested Queries */
+        .suggestions {
+            margin-top: 3rem;
+        }
+
+        .suggestions h5 {
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .prompt-card {
+            background: var(--bg-light);
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .prompt-card:hover {
+            background: var(--bg-card);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .prompt-card i {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .prompt-card h6 {
+            color: var(--text-primary);
+            font-size: 0.9375rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .prompt-card p {
+            color: var(--text-secondary);
+            font-size: 0.8125rem;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        /* Query Input */
+        .query {
+            padding: 1.5rem 2.5rem;
+            background: var(--bg-light);
+            border-top: 1px solid var(--border);
+            box-shadow: 0 -1px 3px var(--shadow);
+        }
+
+        .query-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .form-control {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            height: 56px;
+            border-radius: 28px;
+            padding: 0 1.5rem;
+            font-size: 0.9375rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            background: white;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 132, 255, 0.1);
+            color: var(--text-primary);
+            outline: none;
+        }
+
+        .form-control::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .send {
+            width: 56px;
+            height: 56px;
+            background: var(--primary);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.125rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 0.75rem;
+        }
+
+        .send:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 132, 255, 0.3);
+        }
+
+        /* Spinner */
+        .spinner-border-sm {
+            width: 1rem;
+            height: 1rem;
+            border-width: 2px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .chat-area {
+                padding: 1.5rem;
+            }
+
+            .bot, .user {
+                max-width: 90%;
+            }
+
+            .header, .query {
+                padding: 1rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 sidebar">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <div>
+                        Fin<span>RAG</span> AI
+                    </div>
+                </div>
+
+                <div class="sidebar-footer">
+                    <div class="creator-tag">
+                        <i class="fa-solid fa-user-tie"></i>
+                        <div>
+                            <div class="creator-label">Created by</div>
+                            <div class="creator-name">Punya Nagpal</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upload Section -->
+                <div class="upload-section">
+                    <h6>
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        Upload Data
+                    </h6>
+
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="upload-box">
+                            <i class="fa-solid fa-file-arrow-up"></i>
+                            <p>CSV, XLSX, PDF, DOCX</p>
+
+                            <input type="file" name="file" class="form-control" required accept=".csv,.xlsx,.pdf,.docx">
+
+                            <button class="btn w-100" type="submit">
+                                <i class="fa-solid fa-upload"></i>
+                                Upload
+                            </button>
+
+                            {% if message %}
+                            <div class="upload-message success">
+                                {{ message }}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 p-0">
+                <div class="main">
+                    <!-- Header -->
+                    <div class="header">
+                        <h3>Financial Intelligence Assistant</h3>
+                        <div class="status-badge">
+                            <i class="fa-solid fa-circle-check"></i>
+                            Hybrid AI Powered
+                        </div>
+                    </div>
+
+                    <!-- Chat Area -->
+                    <div class="chat-area">
+                        <!-- Welcome Message -->
+                        <div class="welcome-box">
+                            <div class="welcome-icon">
+                                <i class="fa-solid fa-robot"></i>
+                            </div>
+                            <h2>Welcome to FinRAG AI</h2>
+                            <p>
+                                Your intelligent financial assistant powered by advanced RAG and Pandas analysis.
+                                Upload your financial documents to get started.
+                            </p>
+                            <div class="author-badge">
+                                <i class="fa-solid fa-code"></i>
+                                Created by <strong>Punya Nagpal</strong>
+                            </div>
+                        </div>
+
+                        <!-- Suggested Queries -->
+                        <div class="suggestions">
+                            <h5><i class="fa-solid fa-lightbulb"></i> Try asking:</h5>
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <div class="prompt-card">
+                                        <i class="fa-solid fa-calendar-days"></i>
+                                        <h6>Date Lookups</h6>
+                                        <p>What was the price on June 15, 2026?</p>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="prompt-card">
+                                        <i class="fa-solid fa-chart-line"></i>
+                                        <h6>Trend Analysis</h6>
+                                        <p>Show me the highest price in May 2026</p>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="prompt-card">
+                                        <i class="fa-solid fa-calculator"></i>
+                                        <h6>Profit/Loss</h6>
+                                        <p>Calculate profit for 100 shares bought on May 1</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chat Messages Container -->
+                        <div id="chatBox"></div>
+                    </div>
+
+                    <!-- Query Input -->
+                    <div class="query">
+                        <div class="query-wrapper">
+                            <div class="input-group">
+                                <input type="text" id="questionBox" class="form-control"
+                                    placeholder="Ask anything about your financial data...">
+
+                                <button class="btn send" onclick="sendQuestion()">
+                                    <i class="fa-solid fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function sendQuestion() {
+            let input = document.getElementById("questionBox");
+            let question = input.value.trim();
+
+            if (!question) return;
+
+            let chatBox = document.getElementById("chatBox");
+            let chatArea = document.querySelector('.chat-area');
+
+            // Add timestamp
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+
+            // 1. Add user message
+            chatBox.innerHTML += `
+                <div class="message user">
+                    <strong>You</strong>
+                    <p style="white-space: pre-line;">${escapeHtml(question)}</p>
+                </div>
+            `;
+
+            // 2. Add WhatsApp-style typing indicator
+            const loadingId = 'loading-' + Date.now();
+            chatBox.innerHTML += `
+                <div class="message" id="${loadingId}">
+                    <div class="typing-indicator">
+                        <div class="typing-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            input.value = "";
+
+            // Scroll to show loading
+            chatArea.scrollTop = chatArea.scrollHeight;
+
+            // 3. Send request
+            fetch("/ask/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-CSRFToken": getCSRFToken()
+                },
+                body: "question=" + encodeURIComponent(question)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    // Remove loading
+                    document.getElementById(loadingId).remove();
+
+                    // Add response
+                    chatBox.innerHTML += `
+                    <div class="message bot">
+                        <strong><i class="fa-solid fa-robot"></i> FinRAG AI</strong>
+                        <p style="white-space: pre-line;">${escapeHtml(data.answer)}</p>
+                    </div>
+                `;
+
+                    // Scroll to bottom
+                    chatArea.scrollTop = chatArea.scrollHeight;
+                })
+                .catch(err => {
+                    console.error("Error:", err);
+
+                    // Remove loading
+                    document.getElementById(loadingId).remove();
+
+                    // Show error
+                    chatBox.innerHTML += `
+                    <div class="message bot">
+                        <strong><i class="fa-solid fa-robot"></i> FinRAG AI</strong>
+                        <p style="color: #ef4444;">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            Failed to process your query. Please try again.
+                        </p>
+                    </div>
+                `;
+
+                    chatArea.scrollTop = chatArea.scrollHeight;
+                });
+        }
+
+        // CSRF token helper
+        function getCSRFToken() {
+            let cookieValue = null;
+            let cookies = document.cookie.split(';');
+
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i].trim();
+                if (cookie.startsWith("csrftoken=")) {
+                    cookieValue = cookie.substring("csrftoken=".length);
+                }
+            }
+            return cookieValue;
+        }
+
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Enter key to send
+        document.getElementById("questionBox").addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                sendQuestion();
+            }
+        });
+    </script>
+</body>
+
+</html>

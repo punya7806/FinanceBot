@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual Environment
+venv/
+env/
+.venv/
+
+# VS Code
+.vscode/
+
+# Environment Variables
+.env
+
+# Django
+db.sqlite3
+
+# Media
+media/uploads/
+
+# FAISS indexes
+faiss_index/
+*.faiss
+*.pkl
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Pytest
+.pytest_cache/
+
+# Cache
+.cache/
+
+# Notebook
+.ipynb_checkpoints/
+
+test_results_*.json

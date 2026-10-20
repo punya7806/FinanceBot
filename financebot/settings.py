@@ -10,22 +10,25 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+
+import os
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "dev-only-change-me")
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
+DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$veg%b!-o&tqlm=^0ql_=78*&_u1ehv=1e8drr@@c_+tkkly7#'
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+render_hostname = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
+if render_hostname:
+    ALLOWED_HOSTS.append(render_hostname)
 
-ALLOWED_HOSTS = []
+CSRF_TRUSTED_ORIGINS = (
+    [f"https://{render_hostname}"] if render_hostname else []
+)
 
 
 # Application definition
